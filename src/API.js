@@ -25,6 +25,23 @@ const post = (url, data) => {
 	};
 	return fetch(url, configurationObject);
 };
+const PostOrder = (configurationObject) => {
+	fetch(`${BASE_URL}/orders`, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(configurationObject)
+	});
+	// 	ORunning via Spring preloader in process 75548
+	// Loading development environment (Rails 6.0.2.2)
+	// r2.6.1 :001 > OrderProduct.new
+	//  => #<OrderProduct id: nil, order_id: nil, product_id: nil, total: nil, created_at: nil, updated_at: nil>
+	// 2.6.1 :002 > Order.new
+	//  => #<Order id: nil, seller_id: nil, buyer_id: nil, created_at: nil, updated_at: nil>
+	// 2.6.1 :003 >
+};
 const get = (url, token) => {
 	return token ? fetch(url, { headers: { AUTHORIZATION: token } }) : fetch(url);
 };
@@ -37,4 +54,4 @@ const buyerSignIn = (data) => {
 	return post(buyerSignInUrl, data).then((response) => response.json());
 };
 
-export default { fetchProducers, buyerSignIn, validate };
+export default { fetchProducers, buyerSignIn, validate, PostOrder };

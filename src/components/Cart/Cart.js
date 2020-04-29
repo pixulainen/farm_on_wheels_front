@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Segment, Divider, Header, Button, Icon, Container } from 'semantic-ui-react';
 import ProductCell from './ProductCell';
+import API from '../../API';
 export default class Cart extends Component {
 	renderItems() {
 		const { cart } = this.props;
@@ -10,6 +11,9 @@ export default class Cart extends Component {
 	}
 	render() {
 		const { cart } = this.props;
+		const SubmitOrder = () => {
+			API.PostOrder(this.state);
+		};
 
 		return (
 			<Container text>
@@ -30,7 +34,7 @@ export default class Cart extends Component {
 					<Divider />
 					<br />
 					<br />
-					<Button floated="right" color="olive" circular>
+					<Button floated="right" color="olive" circular onClick={SubmitOrder}>
 						Checkout
 					</Button>
 				</Segment>
