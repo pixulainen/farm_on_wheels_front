@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProducerDisplayComponent from './ProducerDisplayComponent';
 import ProductsCardList from './ProductsCardList';
+import { Container } from 'semantic-ui-react';
 export default function ProducerDetails(props) {
 	const [ producer, setProducer ] = useState(null);
 	const addToCart = props.addToCart;
@@ -17,11 +18,11 @@ export default function ProducerDetails(props) {
 	}, []);
 
 	return producer ? (
-		<div>
-			<h1>
-				<ProducerDisplayComponent producer={producer} />
+		<Container style={{ width: 1500, padding: 10 }}>
+			<ProducerDisplayComponent producer={producer} />
+			<Container>
 				<ProductsCardList products={producer.products} addToCart={addToCart} />
-			</h1>
-		</div>
+			</Container>
+		</Container>
 	) : null;
 }

@@ -10,8 +10,10 @@ export default class ProductsCardList extends Component {
 	render() {
 		const products = this.renderProducts();
 		return (
-			<Segment basic>
-				<Card.Group>{products}</Card.Group>
+			<Segment textAlign="center" basic>
+				<Card.Group stackable itemsPerRow="6">
+					{products}
+				</Card.Group>
 			</Segment>
 		);
 	}

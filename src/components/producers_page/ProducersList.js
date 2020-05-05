@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import ProducerCard from './ProducerCard';
 export default function ProducersList({ match, producers }) {
@@ -12,10 +12,7 @@ export default function ProducersList({ match, producers }) {
 	});
 	return (
 		<Card.Group>
-			{renderProducers}
-			{/* {producers.map((producer) => {
-				return <ProducerCard producer={producer} key={producer.id} {...producer} />;
-			})} */}
+			<Container style={{ width: 1600 }}>{renderProducers}</Container>
 		</Card.Group>
 	);
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Icon, Image, Button } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Card, Icon, Image, Button, Form } from 'semantic-ui-react';
 
 export default function Product({
 	description,
@@ -12,10 +12,11 @@ export default function Product({
 	addToCart,
 	product
 }) {
+	const [ count, setCount ] = useState(0);
 	const price = price_kg ? `${price_kg}/kg` : `${price_unit}/unit`;
 	return (
-		<Card>
-			<Image src={picture} wrapped ui={false} size="small" />
+		<Card color="olive">
+			<Image src={picture} fluid style={{ height: 150, objectFit: 'cover' }} />
 			<Card.Content>
 				<Card.Header>{name}</Card.Header>
 				<Card.Meta>Quality: {quality}</Card.Meta>
@@ -27,8 +28,18 @@ export default function Product({
 				<Icon name="pound" />
 				{price}
 			</Card.Content>
+			<Form.Field
+				label="Quantity"
+				control="input"
+				type="number"
+				min={0}
+				max={stock}
+				onChange={(e) => setCount(e.target.value)}
+			/>
 			<Card.Content extra>
-				<Button onClick={() => addToCart(product)}>Add to cart</Button>
+				<Button color="teal" onClick={() => addToCart(product, count)}>
+					<Icon name="add to cart" />Add to cart
+				</Button>
 			</Card.Content>
 		</Card>
 	);
