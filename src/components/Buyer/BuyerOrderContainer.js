@@ -2,12 +2,14 @@ import React from 'react';
 import { Container, Header, Segment, Table } from 'semantic-ui-react';
 import BuyerOrdercell from './BuyerOrdersCell';
 
-export default function BuyerOrderContainer({ orders }) {
+export default function BuyerOrderContainer({ orders, buyer }) {
 	const renderOrders = () => {
+		// debugger;
 		return orders.map((order) => {
-			return <BuyerOrdercell order={order} key={order.id} {...order} />;
+			return <BuyerOrdercell buyer={buyer} order={order} key={order.id} {...order} />;
 		});
 	};
+
 	return (
 		<div>
 			<Container fluid textAlign="center">
@@ -16,7 +18,7 @@ export default function BuyerOrderContainer({ orders }) {
 					<Table celled structured>
 						<Table.Header>
 							<Table.Row>
-								<Table.HeaderCell textAlign="center">Order number</Table.HeaderCell>
+								<Table.HeaderCell textAlign="center">Order id</Table.HeaderCell>
 								<Table.HeaderCell textAlign="center">Order date</Table.HeaderCell>
 								<Table.HeaderCell textAlign="center">Shipped to</Table.HeaderCell>
 								<Table.HeaderCell textAlign="center">Seller </Table.HeaderCell>

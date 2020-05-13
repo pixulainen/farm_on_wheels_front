@@ -13,7 +13,7 @@ export default class Cart extends Component {
 	render() {
 		const { cart, username, emptyCart, total } = this.props;
 		const SubmitOrder = () => {
-			API.PostOrder(cart, username);
+			API.PostOrder(cart, username, total());
 			console.log(cart, username);
 			emptyCart();
 		};
@@ -39,11 +39,11 @@ export default class Cart extends Component {
 					<br />
 					<br />
 					<Button floated="right" color="olive" circular onClick={SubmitOrder}>
-						<Icon name="cart" />
+						<Icon name="add to cart" />
 						Checkout
 					</Button>
 					<Button floated="left" color="red" circular onClick={emptyCart}>
-						<Icon name="add to cart" />
+						<Icon name="cart" />
 						Empty Cart
 					</Button>
 				</Segment>

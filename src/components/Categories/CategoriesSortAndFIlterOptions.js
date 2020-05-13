@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Menu, Dropdown } from 'semantic-ui-react';
+import { Input, Menu, Dropdown, Header } from 'semantic-ui-react';
 
 // const parse = (res) =>
 // 	res.map((r) => ({
@@ -50,8 +50,11 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 			<Menu secondary text>
 				<Menu.Menu>
 					<Menu.Item>
-						<h1>Filter</h1>
+						<Menu.Item name="Select Category" />
+
 						<Dropdown
+							item
+							wrapSelection
 							placeholder="Select category"
 							scrolling
 							selection
@@ -62,8 +65,10 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 				</Menu.Menu>
 				<Menu.Menu>
 					<Menu.Item>
-						<h1>Sort</h1>
+						<Menu.Item name="Sort" />
 						<Dropdown
+							item
+							wrapSelection
 							placeholder="Sort By"
 							scrolling
 							selection

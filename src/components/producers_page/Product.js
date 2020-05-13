@@ -12,7 +12,7 @@ export default function Product({
 	addToCart,
 	product
 }) {
-	const [ count, setCount ] = useState(0);
+	const [ count, setCount ] = useState(1);
 	const price = price_kg ? `${price_kg}/kg` : `${price_unit}/unit`;
 	return (
 		<Card color="olive">
@@ -32,7 +32,7 @@ export default function Product({
 				label="Quantity"
 				control="input"
 				type="number"
-				min={0}
+				min={1}
 				max={stock}
 				onChange={(e) => setCount(e.target.value)}
 			/>

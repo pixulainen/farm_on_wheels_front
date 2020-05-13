@@ -2,7 +2,8 @@ import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
-export default function BuyerOrdercell({ id, created_at, seller }) {
+export default function BuyerOrdercell({ id, created_at, seller, buyer, total }) {
+	const fullname = `${buyer.first_name}  ${buyer.last_name}`;
 	return (
 		<Table.Body>
 			<Table.Row>
@@ -10,10 +11,10 @@ export default function BuyerOrdercell({ id, created_at, seller }) {
 				<Table.Cell textAlign="center">
 					<Moment format="DD/MM/YYYY">{created_at}</Moment>
 				</Table.Cell>
-				<Table.Cell textAlign="center">Name Name</Table.Cell>
+				<Table.Cell textAlign="center">{fullname}</Table.Cell>
 				<Table.Cell textAlign="center">{seller.store_name}</Table.Cell>
 
-				<Table.Cell textAlign="center">Total</Table.Cell>
+				<Table.Cell textAlign="center">£ {total}</Table.Cell>
 
 				<Table.Cell textAlign="center">
 					<Icon color="green" name="checkmark" size="large" />

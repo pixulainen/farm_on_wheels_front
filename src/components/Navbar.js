@@ -41,7 +41,7 @@ export default class Navbar extends Component {
 			);
 		return (
 			<div>
-				<Menu borderless size="small" color="olive">
+				<Menu stackable borderless size="small" color="olive">
 					<Menu.Item>
 						<img src="../assets/farmlogo.png" alt="logo" />
 					</Menu.Item>

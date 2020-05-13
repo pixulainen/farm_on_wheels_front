@@ -18,13 +18,14 @@ class App extends Component {
 		username: null
 	};
 
-	addToCart = (product, count = 1) => {
+	addToCart = (product, count) => {
+		count = parseInt(count, 10);
 		const existingProduct = this.state.cart.find((p) => p.id === product.id);
 		let updatedCart;
 
 		if (existingProduct) {
-			existingProduct.count++;
-			existingProduct.stock++;
+			existingProduct.count += count;
+			existingProduct.stock += count;
 			updatedCart = this.state.cart;
 		} else {
 			const newProduct = { ...product, count: count, stock: count };
@@ -60,7 +61,7 @@ class App extends Component {
 			username
 		});
 		localStorage.setItem('token', token);
-		// this.props.history.push('/buyer_profile');
+		this.props.history.push('/buyer_profile');
 	};
 	componentDidMount() {
 		if (localStorage.token) {
@@ -100,7 +101,7 @@ class App extends Component {
 				/>
 
 				{/* <Route exact path="/sellersignup" render={SellerSignUpForm} /> */}
-				<Route exact path="/buyersignup" render={() => <BuyerSignupForm />} />
+				<Route exact path="/buyersignup" render={() => <BuyerSignupForm signIn={this.signIn} />} />
 				<Route exact path="/producers" render={() => <ProducersPageComponent />} />
 				<Route exact path="/categories" render={() => <CategoriesPage />} />
 

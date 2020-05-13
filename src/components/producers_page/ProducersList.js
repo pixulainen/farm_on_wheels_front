@@ -11,8 +11,8 @@ export default function ProducersList({ match, producers }) {
 		);
 	});
 	return (
-		<Card.Group>
-			<Container style={{ width: 1600 }}>{renderProducers}</Container>
-		</Card.Group>
+		<Container>
+			<Card.Group itemsPerRow="4">{renderProducers}</Card.Group>
+		</Container>
 	);
 }

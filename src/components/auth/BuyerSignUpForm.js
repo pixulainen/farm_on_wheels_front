@@ -1,9 +1,29 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-
+import API from '../../API';
 export default class BuyerSignUpForm extends Component {
-	state = {};
+	state = {
+		username: '',
+		password: '',
+		email: '',
+		first_name: '',
+		last_name: '',
+		phone_number: ''
+	};
+	handleChange = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	};
+	handleSubmit = (e) => {
+		e.preventDefault();
+
+		API.signUp(this.state).then((json) => {
+			console.log(json);
+			this.props.signIn(json.username, json.token);
+		});
+	};
 	render() {
 		return (
 			<div>
@@ -15,7 +35,7 @@ export default class BuyerSignUpForm extends Component {
 						<Form onSubmit={this.handleSubmit}>
 							<Segment>
 								<Form.Input
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="user"
 									iconPosition="left"
@@ -23,9 +43,7 @@ export default class BuyerSignUpForm extends Component {
 									name="username"
 								/>
 								<Form.Input
-									// #<Buyer id: nil, username: nil, first_name: nil, last_name: nil, email: nil,
-									//   password_digest: nil, phone_number: nil, created_at: nil, updated_at: nil>
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="mail outline"
 									iconPosition="left"
@@ -33,54 +51,39 @@ export default class BuyerSignUpForm extends Component {
 									name="email"
 								/>
 								<Form.Input
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="lock"
 									iconPosition="left"
 									placeholder="Password"
 									type="password"
 									name="password"
-								/>{' '}
+								/>
 								<Form.Input
-									// #<Buyer id: nil, username: nil, first_name: nil, last_name: nil, email: nil,
-									//   password_digest: nil, phone_number: nil, created_at: nil, updated_at: nil>
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="user"
 									iconPosition="left"
 									placeholder="Name"
-									name="name"
+									name="first_name"
 								/>
 								<Form.Input
-									// #<Buyer id: nil, username: nil, first_name: nil, last_name: nil, email: nil,
-									//   password_digest: nil, phone_number: nil, created_at: nil, updated_at: nil>
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="user"
 									iconPosition="left"
 									placeholder="Last Name"
-									name="lastname"
-								/>{' '}
+									name="last_name"
+								/>
 								<Form.Input
-									// #<Buyer id: nil, username: nil, first_name: nil, last_name: nil, email: nil,
-									//   password_digest: nil, phone_number: nil, created_at: nil, updated_at: nil>
-									onChange
+									onChange={this.handleChange}
 									fluid
 									icon="phone"
 									iconPosition="left"
 									placeholder="Phone Number"
-									name="phonenumber"
+									name="phone_number"
 								/>
-								<Button
-									onClick
-									type="submit"
-									basic
-									color="olive"
-									content="Olive"
-									positive
-									fluid
-									size="large"
-								>
+								<Button type="submit" basic color="olive" positive fluid size="large">
 									Register
 								</Button>
 							</Segment>
@@ -88,9 +91,10 @@ export default class BuyerSignUpForm extends Component {
 						<Header as="h3" color="teal" textAlign="center">
 							Registered?
 						</Header>
+						`{' '}
 						<Button positive as={Link} to="/login">
 							Log In!
-						</Button>
+						</Button>`
 					</Grid.Column>
 				</Grid>
 			</div>
