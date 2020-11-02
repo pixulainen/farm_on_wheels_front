@@ -8,7 +8,7 @@ const initialState = {
 	error: false,
 	isLoading: false,
 	results: [],
-	value: ''
+	value: '',
 };
 
 const parse = (res) =>
@@ -18,7 +18,7 @@ const parse = (res) =>
 		description: r.description,
 		price: r.price_kg ? `${r.price_kg} ££/Kg` : `${r.price_unit} ££/Unit`,
 		image: r.picture,
-		id: r.seller_id
+		id: r.seller_id,
 	}));
 
 class _Search extends Component {
@@ -36,8 +36,8 @@ class _Search extends Component {
 				this.setState({
 					isLoading: false,
 					error: false,
-					results: parse(res)
-				})
+					results: parse(res),
+				}),
 			)
 			.catch(() => this.setState({ isLoading: false, error: true }));
 	};
@@ -49,11 +49,11 @@ class _Search extends Component {
 			<Grid>
 				<Grid.Column width={6}>
 					<Search
-						aligned="left"
+						aligned='left'
 						loading={isLoading}
 						onResultSelect={this.handleResultSelect}
 						onSearchChange={_.debounce(this.handleSearchChange, 500, {
-							leading: true
+							leading: true,
 						})}
 						noResultsMessage={error ? 'Ups, try again later.' : 'No results found.'}
 						results={results}

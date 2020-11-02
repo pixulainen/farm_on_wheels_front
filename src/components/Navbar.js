@@ -1,102 +1,95 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
+
 import { Link } from 'react-router-dom';
 import Search from './Search';
-export default class Navbar extends Component {
-	state = { activeItem: 'Farm on Wheels' };
-	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+import { connect } from 'react-redux';
 
-	handleItemClickSignOut = (e, { name }) => {
-		this.setState({
-			activeItem: name,
-		});
+const Navbar = ({ currentUser, cart, signOut }) => {
+	const [ activeItem, setActiveItem ] = useState('Farm on Wheels');
+	const handleItemClick = (e, { name }) => setActiveItem(name);
 
-		this.props.signOut();
+	const handleItemClickSignOut = (e, { name }) => {
+		setActiveItem(name);
+		signOut();
 	};
 
-	render() {
-		const { cart, username } = this.props;
-		const { activeItem } = this.state;
+	const signInOut = () =>
+		currentUser ? (
+			<Fragment>
+				<Menu.Item
+					name='Profile'
+					onClick={handleItemClick}
+					active={activeItem === 'Profile'}
+					as={Link}
+					to='/buyer_profile'
+				/>
+				<Menu.Item name='Logout' active={activeItem === 'Logout'} onClick={handleItemClickSignOut} />
+			</Fragment>
+		) : (
+			<Menu.Item as={Link} to='/login' name='Login' active={activeItem === 'Login'} onClick={handleItemClick} />
+		);
+	return (
+		<div>
+			<Menu stackable borderless size='small' color='olive'>
+				<Menu.Item>
+					<img src='../assets/farmlogo.png' alt='logo' />
+				</Menu.Item>
 
-		const signInOut = () =>
-			username ? (
-				<Fragment>
-					<Menu.Item
-						name='Profile'
-						onClick={this.handleItemClick}
-						active={activeItem === 'Profile'}
-						as={Link}
-						to='/buyer_profile'
-					/>
-					<Menu.Item name='Logout' active={activeItem === 'Logout'} onClick={this.handleItemClickSignOut} />
-				</Fragment>
-			) : (
+				<Menu.Item
+					name='Farm on Wheels'
+					active={activeItem === 'Farm on Wheels'}
+					onClick={handleItemClick}
+					as={Link}
+					to='/'
+				/>
 				<Menu.Item
 					as={Link}
-					to='/login'
-					name='Login'
-					active={activeItem === 'Login'}
-					onClick={this.handleItemClick}
+					to='/categories'
+					name='Categories'
+					active={activeItem === 'Categories'}
+					onClick={handleItemClick}
 				/>
-			);
-		return (
-			<div>
-				<Menu stackable borderless size='small' color='olive'>
-					<Menu.Item>
-						<img src='../assets/farmlogo.png' alt='logo' />
+				<Menu.Item
+					as={Link}
+					to='/producers'
+					name='Producers'
+					active={activeItem === 'Producers'}
+					onClick={handleItemClick}
+				/>
+				<Menu.Item>
+					<Search />
+				</Menu.Item>
+				<Menu.Menu position='right'>
+					<Menu.Item
+						name='Register Seller Account'
+						active={activeItem === 'Register Seller Account'}
+						onClick={handleItemClick}
+					/>
+					<Menu.Item
+						as={Link}
+						to='/buyersignup'
+						name='Register Buyer Account'
+						active={activeItem === 'Register Buyer Account'}
+						onClick={handleItemClick}
+					/>
+					{signInOut()}
+					<Menu.Item
+						as={Link}
+						to='/cart'
+						name='cart'
+						active={activeItem === 'cart'}
+						onClick={handleItemClick}
+					>
+						<Icon name='cart' size='large' bordered />
+						<span>{cart.length}</span>
 					</Menu.Item>
-
-					<Menu.Item
-						name='Farm on Wheels'
-						active={activeItem === 'Farm on Wheels'}
-						onClick={this.handleItemClick}
-						as={Link}
-						to='/'
-					/>
-					<Menu.Item
-						as={Link}
-						to='/categories'
-						name='Categories'
-						active={activeItem === 'Categories'}
-						onClick={this.handleItemClick}
-					/>
-					<Menu.Item
-						as={Link}
-						to='/producers'
-						name='Producers'
-						active={activeItem === 'Producers'}
-						onClick={this.handleItemClick}
-					/>
-					<Menu.Item>
-						<Search />
-					</Menu.Item>
-					<Menu.Menu position='right'>
-						<Menu.Item
-							name='Register Seller Account'
-							active={activeItem === 'Register Seller Account'}
-							onClick={this.handleItemClick}
-						/>
-						<Menu.Item
-							as={Link}
-							to='/buyersignup'
-							name='Register Buyer Account'
-							active={activeItem === 'Register Buyer Account'}
-							onClick={this.handleItemClick}
-						/>
-						{signInOut()}
-						<Menu.Item
-							as={Link}
-							to='/cart'
-							name='cart'
-							active={activeItem === 'cart'}
-							onClick={this.handleItemClick}
-						>
-							<Icon name='cart' size='large' bordered />
-							<span>{cart.length}</span>
-						</Menu.Item>
-					</Menu.Menu>
-				</Menu>
-			</div>
-		);
-	}
-}
+				</Menu.Menu>
+			</Menu>
+		</div>
+	);
+};
+const mapStateToProps = (state) => ({
+	currentUser: state.user.currentUser,
+});
+export default connect(mapStateToProps)(Navbar);

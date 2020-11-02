@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoginForm from './components/auth/LoginForm';
 import Cart from './components/Cart/Cart';
@@ -11,12 +11,13 @@ import ProducersPageComponent from './components/producers_page/ProducersPageCom
 import ProducerDetails from './components/producers_page/ProducerDetails';
 import CategoriesPage from './pages/Categories/Categories';
 import Homepage from './pages/Homepage/Homepage';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends Component {
 	state = {
 		cart: [],
 		total: 0,
-		username: null,
 	};
 
 	addToCart = (product, count) => {
@@ -51,34 +52,34 @@ class App extends Component {
 
 		return sum;
 	};
-
 	emptyCart = () => {
 		this.setState({
 			cart: [],
 		});
 	};
-	signIn = (username, token) => {
-		this.setState({
-			username,
+	signIn = (user, token) => {
+		this.props.setCurrentUser({
+			user,
 		});
 		localStorage.setItem('token', token);
-		this.props.history.push('/buyer_profile');
+		// this.props.history.push('/buyer_profile');
 	};
-	componentDidMount() {
-		if (localStorage.token) {
-			API.validate(localStorage.token).then((loginData) => this.signIn(loginData.buyer, loginData.token));
-		}
-	}
 	signOut = () => {
 		this.setState({
 			username: null,
 		});
 		localStorage.removeItem('token');
 	};
+	componentDidMount() {
+		if (localStorage.token) {
+			API.validate(localStorage.token).then((loginData) => this.signIn(loginData.buyer, loginData.token));
+		}
+	}
+
 	render() {
 		return (
 			<div>
-				<Navbar cart={this.state.cart} username={this.state.username} signOut={this.signOut} />
+				<Navbar cart={this.state.cart} signOut={this.signOut} />
 				<Route exact path='/' component={Homepage} />
 				<Route exact path='/login' render={(props) => <LoginForm signIn={this.signIn} {...props} />} />
 				<Route
@@ -115,4 +116,7 @@ class App extends Component {
 		);
 	}
 }
-export default withRouter(App);
+const mapDispatchToProps = (dispatch) => ({
+	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+export default connect(null, mapDispatchToProps)(App);
