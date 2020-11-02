@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { Input, Menu, Dropdown, Header } from 'semantic-ui-react';
+import { Input, Menu, Dropdown } from 'semantic-ui-react';
 
-// const parse = (res) =>
-// 	res.map((r) => ({
-// 		key: r.id,
-// 		text: r.name,
-// 		value: r.id
-// 	}));
 const options = [
 	{ key: 1, text: 'Default', value: 'default' },
 	{ key: 1, text: 'Name', value: 'name' },
-	{ key: 2, text: 'Price', value: 'price' }
+	{ key: 2, text: 'Price', value: 'price' },
 ];
 
 export default class CategoriesSortAndFIlterOptions extends Component {
@@ -21,28 +15,28 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 			{
 				key: 1,
 				text: 'All',
-				value: 'All'
+				value: 'All',
 			},
 			{
 				key: 2,
 				text: 'Vegetables',
-				value: 1
+				value: 1,
 			},
 			{
 				key: 3,
 				text: 'Fruits',
-				value: 2
+				value: 2,
 			},
 			{
 				key: 4,
 				text: 'Dairy',
-				value: 3
+				value: 3,
 			},
 			{
 				key: 5,
 				text: 'Meat',
-				value: 4
-			}
+				value: 4,
+			},
 		];
 
 		const { handleFilterChange, handleSearchChange, handleSortChange } = this.props;
@@ -50,12 +44,12 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 			<Menu secondary text>
 				<Menu.Menu>
 					<Menu.Item>
-						<Menu.Item name="Select Category" />
+						<Menu.Item name='Select Category' />
 
 						<Dropdown
 							item
 							wrapSelection
-							placeholder="Select category"
+							placeholder='Select category'
 							scrolling
 							selection
 							options={getOptions}
@@ -65,11 +59,11 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 				</Menu.Menu>
 				<Menu.Menu>
 					<Menu.Item>
-						<Menu.Item name="Sort" />
+						<Menu.Item name='Sort' />
 						<Dropdown
 							item
 							wrapSelection
-							placeholder="Sort By"
+							placeholder='Sort By'
 							scrolling
 							selection
 							clearable
@@ -79,9 +73,9 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 					</Menu.Item>
 				</Menu.Menu>
 
-				<Menu.Menu position="right">
+				<Menu.Menu position='right'>
 					<Menu.Item>
-						<Input icon="search" placeholder="Search..." onChange={handleSearchChange} />
+						<Input icon='search' placeholder='Search...' onChange={handleSearchChange} />
 					</Menu.Item>
 				</Menu.Menu>
 			</Menu>

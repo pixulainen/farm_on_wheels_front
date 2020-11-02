@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Item } from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
 import SellersFavouriteCards from './SellersFavouriteCards';
 export default function BuyerFavoritesSellers({ sellers, updateSellerFavorites }) {
 	const renderFavoritesSellers = () => {

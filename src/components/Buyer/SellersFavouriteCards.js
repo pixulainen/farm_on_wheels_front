@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { Icon, Item, Button, Feed } from 'semantic-ui-react';
+import React from 'react';
+import { Icon, Feed } from 'semantic-ui-react';
 import API from '../../API';
 import { withRouter } from 'react-router-dom';
-// class _CategoriesPage extends Component
 function _SellersFavouriteCards({ store_photos, id, store_name, updateSellerFavorites, history }) {
 	const clearSeller = (id) => {
 		API.removeFromFavourites(id);
@@ -20,7 +19,7 @@ function _SellersFavouriteCards({ store_photos, id, store_name, updateSellerFavo
 				</Item.Content>
 				<Button name="remove" onClick={() => clearSeller(id)} />
 			</Item> */}
-			<Feed size="large">
+			<Feed size='large'>
 				<Feed.Event>
 					<Feed.Label image={store_photos} />
 					<Feed.Content>
@@ -29,7 +28,7 @@ function _SellersFavouriteCards({ store_photos, id, store_name, updateSellerFavo
 						</Feed.Summary>
 						<Feed.Meta onClick={() => clearSeller(id)}>
 							<Feed.Like>
-								<Icon name="remove" />Remove
+								<Icon name='remove' />Remove
 							</Feed.Like>
 						</Feed.Meta>
 					</Feed.Content>

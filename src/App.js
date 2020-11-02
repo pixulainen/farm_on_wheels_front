@@ -7,15 +7,16 @@ import API from './API';
 import './App.css';
 import BuyerProfilePage from './components/Buyer/BuyerProfilePage';
 import BuyerSignupForm from './components/auth/BuyerSignUpForm';
-// import SellerSignUpForm from './components/auth/SellerSignUpForm';
 import ProducersPageComponent from './components/producers_page/ProducersPageComponent';
 import ProducerDetails from './components/producers_page/ProducerDetails';
-import CategoriesPage from './components/Categories/CategoriesPage';
+import CategoriesPage from './pages/Categories/Categories';
+import Homepage from './pages/Homepage/Homepage';
+
 class App extends Component {
 	state = {
 		cart: [],
 		total: 0,
-		username: null
+		username: null,
 	};
 
 	addToCart = (product, count) => {
@@ -35,7 +36,7 @@ class App extends Component {
 	};
 	removeFromCart = (productId) => {
 		this.setState({
-			cart: this.state.cart.filter((p) => p.id !== productId)
+			cart: this.state.cart.filter((p) => p.id !== productId),
 		});
 	};
 
@@ -53,12 +54,12 @@ class App extends Component {
 
 	emptyCart = () => {
 		this.setState({
-			cart: []
+			cart: [],
 		});
 	};
 	signIn = (username, token) => {
 		this.setState({
-			username
+			username,
 		});
 		localStorage.setItem('token', token);
 		this.props.history.push('/buyer_profile');
@@ -70,7 +71,7 @@ class App extends Component {
 	}
 	signOut = () => {
 		this.setState({
-			username: null
+			username: null,
 		});
 		localStorage.removeItem('token');
 	};
@@ -78,17 +79,17 @@ class App extends Component {
 		return (
 			<div>
 				<Navbar cart={this.state.cart} username={this.state.username} signOut={this.signOut} />
-
-				<Route exact path="/login" render={(props) => <LoginForm signIn={this.signIn} {...props} />} />
+				<Route exact path='/' component={Homepage} />
+				<Route exact path='/login' render={(props) => <LoginForm signIn={this.signIn} {...props} />} />
 				<Route
 					exact
-					path="/buyer_profile"
+					path='/buyer_profile'
 					render={(props) => <BuyerProfilePage username={this.state.username} />}
 				/>
 
 				<Route
 					exact
-					path="/cart"
+					path='/cart'
 					render={() => (
 						<Cart
 							removeFromCart={this.removeFromCart}
@@ -101,13 +102,13 @@ class App extends Component {
 				/>
 
 				{/* <Route exact path="/sellersignup" render={SellerSignUpForm} /> */}
-				<Route exact path="/buyersignup" render={() => <BuyerSignupForm signIn={this.signIn} />} />
-				<Route exact path="/producers" render={() => <ProducersPageComponent />} />
-				<Route exact path="/categories" render={() => <CategoriesPage />} />
+				<Route exact path='/buyersignup' render={() => <BuyerSignupForm signIn={this.signIn} />} />
+				<Route exact path='/producers' render={() => <ProducersPageComponent />} />
+				<Route exact path='/categories' render={() => <CategoriesPage />} />
 
 				<Route
 					exact
-					path="/producers/:producerId"
+					path='/producers/:producerId'
 					render={(routerProps) => <ProducerDetails addToCart={this.addToCart} />}
 				/>
 			</div>

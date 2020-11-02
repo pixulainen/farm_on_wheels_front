@@ -7,16 +7,19 @@ export default function BuyerProfilePage({ username }) {
 	const [ buyer, setBuyer ] = useState(null);
 	const [ favorites, setFavorites ] = useState(null);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const result = await axios.get(`http://localhost:3001/buyers/${username}`, {
-				headers: { Authorization: localStorage.getItem('token') }
-			});
-			setBuyer(result.data);
-			setFavorites(result.data.all_favorited);
-		};
-		fetchData();
-	}, []);
+	useEffect(
+		() => {
+			const fetchData = async () => {
+				const result = await axios.get(`http://localhost:3001/buyers/${username}`, {
+					headers: { Authorization: localStorage.getItem('token') },
+				});
+				setBuyer(result.data);
+				setFavorites(result.data.all_favorited);
+			};
+			fetchData();
+		},
+		[ username ],
+	);
 	const updateSellerFavorites = (sellerId) => {
 		setFavorites(favorites.filter((seller) => seller.id !== sellerId));
 	};
@@ -26,8 +29,8 @@ export default function BuyerProfilePage({ username }) {
 					menuItem: 'Profile',
 					pane: {
 						key: 'profile',
-						content: <div>{<BuyerOrderContainer buyer={buyer} orders={buyer.orders} />}</div>
-					}
+						content: <div>{<BuyerOrderContainer buyer={buyer} orders={buyer.orders} />}</div>,
+					},
 				},
 				{
 					menuItem: ' Favourites',
@@ -35,9 +38,9 @@ export default function BuyerProfilePage({ username }) {
 						key: 'favourites',
 						content: (
 							<BuyerFavoritesSellers updateSellerFavorites={updateSellerFavorites} sellers={favorites} />
-						)
-					}
-				}
+						),
+					},
+				},
 			]
 		: null;
 
