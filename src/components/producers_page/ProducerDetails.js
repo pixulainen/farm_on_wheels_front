@@ -12,17 +12,14 @@ export default function ProducerDetails(props) {
 
 	let match = useRouteMatch('/producers/:slug');
 
-	useEffect(
-		() => {
-			const producerID = match.params.slug;
-			const fetchData = async () => {
-				const result = await axios(`http://localhost:3001/sellers/${producerID}`);
-				setProducer(result.data);
-			};
-			fetchData();
-		},
-		[ match ],
-	);
+	useEffect(() => {
+		const producerID = match.params.slug;
+		const fetchData = async () => {
+			const result = await axios(`http://localhost:3001/sellers/${producerID}`);
+			setProducer(result.data);
+		};
+		fetchData();
+	}, []);
 
 	return producer ? (
 		<Container style={{ width: 1500, padding: 10 }}>

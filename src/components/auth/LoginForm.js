@@ -2,30 +2,34 @@ import React, { Component } from 'react';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import API from '../../API';
+import { signIn } from '../../utils/auth';
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../../redux/user/user.actions';
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
 	state = {
 		username: '',
-		password: ''
+		password: '',
 	};
 	handleChange = (e) => {
 		this.setState({
-			[e.target.name]: e.target.value
+			[e.target.name]: e.target.value,
 		});
 	};
 	handleSubmit = (e) => {
 		e.preventDefault();
 
 		API.buyerSignIn(this.state).then((loginData) => {
-			this.props.signIn(loginData.buyer, loginData.token);
+			signIn(loginData.buyer, loginData.token);
+			this.props.setCurrentUser(loginData.buyer);
 		});
 	};
 	render() {
 		return (
 			<div>
-				<Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+				<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
 					<Grid.Column style={{ maxWidth: 450 }}>
-						<Header as="h2" color="teal" textAlign="center">
+						<Header as='h2' color='teal' textAlign='center'>
 							Log-in to your account
 						</Header>
 						<Form onSubmit={this.handleSubmit}>
@@ -33,30 +37,30 @@ export default class LoginForm extends Component {
 								<Form.Input
 									onChange={this.handleChange}
 									fluid
-									icon="user"
-									iconPosition="left"
-									placeholder="username"
-									name="username"
+									icon='user'
+									iconPosition='left'
+									placeholder='username'
+									name='username'
 								/>
 								<Form.Input
 									onChange={this.handleChange}
 									fluid
-									icon="lock"
-									iconPosition="left"
-									placeholder="password"
-									type="password"
-									name="password"
+									icon='lock'
+									iconPosition='left'
+									placeholder='password'
+									type='password'
+									name='password'
 								/>
 
-								<Button type="submit" color="teal" fluid size="large">
+								<Button type='submit' color='teal' fluid size='large'>
 									Login
 								</Button>
 							</Segment>
 						</Form>
-						<Header as="h3" color="teal" textAlign="center">
+						<Header as='h3' color='teal' textAlign='center'>
 							Don't have an account yet?
 						</Header>
-						<Button color="violet" as={Link} to="/signup">
+						<Button color='violet' as={Link} to='/signup'>
 							Sign Up!
 						</Button>
 					</Grid.Column>
@@ -65,3 +69,9 @@ export default class LoginForm extends Component {
 		);
 	}
 }
+
+const mapDispatchToProps = (dispatch) => ({
+	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(LoginForm);

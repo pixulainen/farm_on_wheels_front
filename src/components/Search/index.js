@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Search, Grid } from 'semantic-ui-react';
 import API from '../../API';
+import history from '../../history';
 
 const initialState = {
 	error: false,
@@ -26,7 +27,7 @@ class _Search extends Component {
 
 	handleResultSelect = (e, { result }) => {
 		this.setState({ value: result.title });
-		this.props.history.push('/producers/' + result.id);
+		history.push('/producers/' + result.id);
 	};
 
 	handleSearchChange = (e, { value }) => {

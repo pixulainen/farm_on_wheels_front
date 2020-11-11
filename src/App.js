@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoginForm from './components/auth/LoginForm';
 import Cart from './components/Cart/Cart';
@@ -13,110 +13,45 @@ import CategoriesPage from './pages/Categories/Categories';
 import Homepage from './pages/Homepage/Homepage';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
-
+import { signIn } from './utils/auth';
 class App extends Component {
-	state = {
-		cart: [],
-		total: 0,
-	};
-
-	addToCart = (product, count) => {
-		count = parseInt(count, 10);
-		const existingProduct = this.state.cart.find((p) => p.id === product.id);
-		let updatedCart;
-
-		if (existingProduct) {
-			existingProduct.count += count;
-			existingProduct.stock += count;
-			updatedCart = this.state.cart;
-		} else {
-			const newProduct = { ...product, count: count, stock: count };
-			updatedCart = [ ...this.state.cart, newProduct ];
-		}
-		this.setState({ cart: updatedCart });
-	};
-	removeFromCart = (productId) => {
-		this.setState({
-			cart: this.state.cart.filter((p) => p.id !== productId),
-		});
-	};
-
-	total = () => {
-		const total = this.state.cart.map((item) => {
-			const price = item.price_kg ? item.price_kg : item.price_unit;
-			let total = item.count * price;
-			return total;
-		});
-
-		const sum = total.reduce((a, b) => a + b, 0);
-
-		return sum;
-	};
-	emptyCart = () => {
-		this.setState({
-			cart: [],
-		});
-	};
-	signIn = (user, token) => {
-		this.props.setCurrentUser({
-			user,
-		});
-		localStorage.setItem('token', token);
-		// this.props.history.push('/buyer_profile');
-	};
-	signOut = () => {
-		this.setState({
-			username: null,
-		});
-		localStorage.removeItem('token');
-	};
 	componentDidMount() {
 		if (localStorage.token) {
-			API.validate(localStorage.token).then((loginData) => this.signIn(loginData.buyer, loginData.token));
+			API.validate(localStorage.token).then((loginData) => {
+				signIn(loginData.buyer, loginData.token);
+				this.props.setCurrentUser(loginData.buyer);
+			});
 		}
 	}
 
 	render() {
 		return (
 			<div>
-				<Navbar cart={this.state.cart} signOut={this.signOut} />
+				<Navbar />
 				<Route exact path='/' component={Homepage} />
-				<Route exact path='/login' render={(props) => <LoginForm signIn={this.signIn} {...props} />} />
 				<Route
 					exact
-					path='/buyer_profile'
-					render={(props) => <BuyerProfilePage username={this.state.username} />}
+					path='/login'
+					render={(props) => (this.props.currentUser ? <Redirect to='/' /> : <LoginForm />)}
 				/>
+				<Route exact path='/buyer_profile' render={(props) => <BuyerProfilePage />} />
 
-				<Route
-					exact
-					path='/cart'
-					render={() => (
-						<Cart
-							removeFromCart={this.removeFromCart}
-							cart={this.state.cart}
-							username={this.state.username}
-							emptyCart={this.emptyCart}
-							total={this.total}
-						/>
-					)}
-				/>
+				<Route exact path='/cart' render={() => <Cart />} />
 
 				{/* <Route exact path="/sellersignup" render={SellerSignUpForm} /> */}
 				<Route exact path='/buyersignup' render={() => <BuyerSignupForm signIn={this.signIn} />} />
 				<Route exact path='/producers' render={() => <ProducersPageComponent />} />
 				<Route exact path='/categories' render={() => <CategoriesPage />} />
 
-				<Route
-					exact
-					path='/producers/:producerId'
-					render={(routerProps) => <ProducerDetails addToCart={this.addToCart} />}
-				/>
+				<Route exact path='/producers/:producerId' render={(routerProps) => <ProducerDetails />} />
 			</div>
 		);
 	}
 }
+const mapStateToProps = ({ user }) => ({
+	currentUser: user.currentUser,
+});
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

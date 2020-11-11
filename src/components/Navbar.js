@@ -3,15 +3,20 @@ import { Menu, Icon } from 'semantic-ui-react';
 
 import { Link } from 'react-router-dom';
 import Search from './Search';
-import { connect } from 'react-redux';
 
-const Navbar = ({ currentUser, cart, signOut }) => {
+import { connect } from 'react-redux';
+import { signOutUser } from '../redux/user/user.actions';
+
+import { signOut } from '../utils/auth';
+
+const Navbar = ({ currentUser, signOutUser }) => {
 	const [ activeItem, setActiveItem ] = useState('Farm on Wheels');
 	const handleItemClick = (e, { name }) => setActiveItem(name);
 
 	const handleItemClickSignOut = (e, { name }) => {
 		setActiveItem(name);
 		signOut();
+		signOutUser();
 	};
 
 	const signInOut = () =>
@@ -35,7 +40,6 @@ const Navbar = ({ currentUser, cart, signOut }) => {
 				<Menu.Item>
 					<img src='../assets/farmlogo.png' alt='logo' />
 				</Menu.Item>
-
 				<Menu.Item
 					name='Farm on Wheels'
 					active={activeItem === 'Farm on Wheels'}
@@ -82,14 +86,17 @@ const Navbar = ({ currentUser, cart, signOut }) => {
 						onClick={handleItemClick}
 					>
 						<Icon name='cart' size='large' bordered />
-						<span>{cart.length}</span>
+						<span>0</span>
 					</Menu.Item>
 				</Menu.Menu>
 			</Menu>
 		</div>
 	);
 };
-const mapStateToProps = (state) => ({
-	currentUser: state.user.currentUser,
+const mapStateToProps = ({ user }) => ({
+	currentUser: user.currentUser,
 });
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch) => ({
+	signOutUser: () => dispatch(signOutUser()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

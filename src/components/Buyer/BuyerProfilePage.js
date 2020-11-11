@@ -3,14 +3,16 @@ import axios from 'axios';
 import { Tab, Container } from 'semantic-ui-react';
 import BuyerOrderContainer from './BuyerOrderContainer';
 import BuyerFavoritesSellers from './BuyerFavoritesSellers';
-export default function BuyerProfilePage({ username }) {
+import { connect } from 'react-redux';
+
+const BuyerProfilePage = ({ currentUser }) => {
 	const [ buyer, setBuyer ] = useState(null);
 	const [ favorites, setFavorites ] = useState(null);
 
 	useEffect(
 		() => {
 			const fetchData = async () => {
-				const result = await axios.get(`http://localhost:3001/buyers/${username}`, {
+				const result = await axios.get(`http://localhost:3001/buyers/${currentUser}`, {
 					headers: { Authorization: localStorage.getItem('token') },
 				});
 				setBuyer(result.data);
@@ -18,7 +20,7 @@ export default function BuyerProfilePage({ username }) {
 			};
 			fetchData();
 		},
-		[ username ],
+		[ currentUser ],
 	);
 	const updateSellerFavorites = (sellerId) => {
 		setFavorites(favorites.filter((seller) => seller.id !== sellerId));
@@ -46,7 +48,11 @@ export default function BuyerProfilePage({ username }) {
 
 	return (
 		<Container style={{ padding: 10 }}>
-			<Tab panes={panes} renderActiveOnly={false} />;
+			<Tab panes={panes} renderActiveOnly={false} />
 		</Container>
 	);
-}
+};
+const mapStateToProps = ({ user }) => ({
+	currentUser: user.currentUser,
+});
+export default connect(mapStateToProps, null)(BuyerProfilePage);
