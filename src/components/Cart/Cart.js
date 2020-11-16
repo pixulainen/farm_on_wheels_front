@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { Table, Segment, Divider, Header, Button, Icon, Container } from 'semantic-ui-react';
 import ProductCell from './ProductCell';
 import API from '../../API';
-export default class Cart extends Component {
+import { connect } from 'react-redux';
+import { clearCart } from '../../redux/cart/cart.actions';
+
+class Cart extends Component {
 	renderItems() {
-		const { cart, removeFromCart } = this.props;
-		return cart.map((product) => {
-			return <ProductCell product={product} {...product} key={product.id} removeFromCart={removeFromCart} />;
+		const { cartItems } = this.props;
+		return cartItems.map((product) => {
+			return <ProductCell product={product} {...product} key={product.id} />;
 		});
 	}
 
@@ -20,7 +23,8 @@ export default class Cart extends Component {
 
 		return (
 			<Container text>
-				<Segment basic celled="true" padded>
+				{console.log(this.props.cartItems)}
+				<Segment basic celled='true' padded>
 					<Table celled compact definition>
 						<Table.Header fullWidth>
 							<Table.Row>
@@ -34,16 +38,16 @@ export default class Cart extends Component {
 						</Table.Header>
 						{this.renderItems()}
 					</Table>
-					<Header floated="right"> Total: £ {total()} </Header>
+					<Header floated='right'> Total: £0 </Header>
 					<Divider />
 					<br />
 					<br />
-					<Button floated="right" color="olive" circular onClick={SubmitOrder}>
-						<Icon name="add to cart" />
+					<Button floated='right' color='olive' circular>
+						<Icon name='add to cart' />
 						Checkout
 					</Button>
-					<Button floated="left" color="red" circular onClick={emptyCart}>
-						<Icon name="cart" />
+					<Button floated='left' color='red' circular onClick={() => this.props.clearCart()}>
+						<Icon name='cart' />
 						Empty Cart
 					</Button>
 				</Segment>
@@ -51,3 +55,11 @@ export default class Cart extends Component {
 		);
 	}
 }
+const mapDispatchToProps = (dispatch) => ({
+	clearCart: () => dispatch(clearCart()),
+});
+const mapStateToProps = ({ cart }) => ({
+	cartItems: cart.cartItems,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -3,7 +3,7 @@ import { Card, Icon, Image, Button, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addItem } from '../../redux/cart/cart.actions';
 
-const Product = ({ description, name, picture, quality, price_kg, price_unit, stock, addToCart, product, addItem }) => {
+const Product = ({ description, name, picture, quality, price_kg, price_unit, stock, product, addItem }) => {
 	const [ count, setCount ] = useState(1);
 
 	const price = price_kg ? `${price_kg}/kg` : `${price_unit}/unit`;

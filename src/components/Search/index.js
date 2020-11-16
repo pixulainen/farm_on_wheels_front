@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Search, Grid } from 'semantic-ui-react';
 import API from '../../API';
 import history from '../../history';
@@ -22,49 +22,47 @@ const parse = (res) =>
 		id: r.seller_id,
 	}));
 
-class _Search extends Component {
-	state = initialState;
+const _Search = (props) => {
+	const [ state, setState ] = useState(initialState);
 
-	handleResultSelect = (e, { result }) => {
-		this.setState({ value: result.title });
+	const handleResultSelect = (e, { result }) => {
+		setState({ value: result.title });
 		history.push('/producers/' + result.id);
 	};
 
-	handleSearchChange = (e, { value }) => {
-		this.setState({ isLoading: true, value });
+	const handleSearchChange = (e, { value }) => {
+		setState({ isLoading: true, value });
 		API.search(e.target.value)
 			.then((res) =>
-				this.setState({
+				setState({
 					isLoading: false,
 					error: false,
 					results: parse(res),
 				}),
 			)
-			.catch(() => this.setState({ isLoading: false, error: true }));
+			.catch(() => setState({ isLoading: false, error: true }));
 	};
 
-	render() {
-		const { isLoading, error, value, results } = this.state;
+	const { isLoading, error, value, results } = state;
 
-		return (
-			<Grid>
-				<Grid.Column width={6}>
-					<Search
-						aligned='left'
-						loading={isLoading}
-						onResultSelect={this.handleResultSelect}
-						onSearchChange={_.debounce(this.handleSearchChange, 500, {
-							leading: true,
-						})}
-						noResultsMessage={error ? 'Ups, try again later.' : 'No results found.'}
-						results={results}
-						value={value}
-						{...this.props}
-					/>
-				</Grid.Column>
-			</Grid>
-		);
-	}
-}
+	return (
+		<Grid>
+			<Grid.Column width={6}>
+				<Search
+					aligned='left'
+					loading={isLoading}
+					onResultSelect={handleResultSelect}
+					onSearchChange={_.debounce(handleSearchChange, 500, {
+						leading: true,
+					})}
+					noResultsMessage={error ? 'Ups, try again later.' : 'No results found.'}
+					results={results}
+					value={value}
+					{...props}
+				/>
+			</Grid.Column>
+		</Grid>
+	);
+};
 
 export default withRouter(_Search);
