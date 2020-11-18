@@ -9,7 +9,7 @@ import { signOutUser } from '../redux/user/user.actions';
 
 import { signOut } from '../utils/auth';
 
-const Navbar = ({ currentUser, signOutUser }) => {
+const Navbar = ({ currentUser, signOutUser, cartItems }) => {
 	const [ activeItem, setActiveItem ] = useState('Farm on Wheels');
 	const handleItemClick = (e, { name }) => setActiveItem(name);
 
@@ -18,7 +18,7 @@ const Navbar = ({ currentUser, signOutUser }) => {
 		signOut();
 		signOutUser();
 	};
-
+	const cartItemsCount = () => cartItems.reduce((accumulator, item) => accumulator + item.quantity, 0);
 	const signInOut = () =>
 		currentUser ? (
 			<Fragment>
@@ -86,15 +86,16 @@ const Navbar = ({ currentUser, signOutUser }) => {
 						onClick={handleItemClick}
 					>
 						<Icon name='cart' size='large' bordered />
-						<span>0</span>
+						<span>{cartItemsCount()}</span>
 					</Menu.Item>
 				</Menu.Menu>
 			</Menu>
 		</div>
 	);
 };
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, cart }) => ({
 	currentUser: user.currentUser,
+	cartItems: cart.cartItems,
 });
 const mapDispatchToProps = (dispatch) => ({
 	signOutUser: () => dispatch(signOutUser()),
