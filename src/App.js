@@ -7,7 +7,7 @@ import API from './API';
 import './App.css';
 import BuyerProfilePage from './components/Buyer/BuyerProfilePage';
 import BuyerSignupForm from './components/auth/BuyerSignUpForm';
-import ProducersPageComponent from './components/producers_page/ProducersPageComponent';
+import SellersDirectory from './components/producers_page/SellersDirectory';
 import ProducerDetails from './components/producers_page/ProducerDetails';
 import CategoriesPage from './pages/Categories/Categories';
 import Homepage from './pages/Homepage/Homepage';
@@ -18,7 +18,7 @@ class App extends Component {
 	componentDidMount() {
 		if (localStorage.token) {
 			API.validate(localStorage.token).then((loginData) => {
-				signIn(loginData.buyer, loginData.token);
+				signIn(loginData.token);
 				this.props.setCurrentUser(loginData.buyer);
 			});
 		}
@@ -40,7 +40,7 @@ class App extends Component {
 
 				{/* <Route exact path="/sellersignup" render={SellerSignUpForm} /> */}
 				<Route exact path='/buyersignup' render={() => <BuyerSignupForm signIn={this.signIn} />} />
-				<Route exact path='/producers' render={() => <ProducersPageComponent />} />
+				<Route exact path='/producers' render={() => <SellersDirectory />} />
 				<Route exact path='/categories' render={() => <CategoriesPage />} />
 
 				<Route exact path='/producers/:producerId' render={(routerProps) => <ProducerDetails />} />

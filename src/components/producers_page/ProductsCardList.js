@@ -4,14 +4,14 @@ import Product from './Product';
 export default class ProductsCardList extends Component {
 	renderProducts() {
 		return this.props.products.map((product) => {
-			return <Product product={product} key={product.id} {...product} addToCart={this.props.addToCart} />;
+			return <Product product={product} key={product.id} {...product} />;
 		});
 	}
 	render() {
 		const products = this.renderProducts();
 		return (
-			<Segment textAlign="center" basic>
-				<Card.Group stackable itemsPerRow="6">
+			<Segment textAlign='center' basic>
+				<Card.Group stackable itemsPerRow='6'>
 					{products}
 				</Card.Group>
 			</Segment>

@@ -20,7 +20,7 @@ class LoginForm extends Component {
 		e.preventDefault();
 
 		API.buyerSignIn(this.state).then((loginData) => {
-			signIn(loginData.buyer, loginData.token);
+			signIn(loginData.token);
 			this.props.setCurrentUser(loginData.buyer);
 		});
 	};
