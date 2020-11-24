@@ -7,27 +7,32 @@ import { Container } from 'semantic-ui-react';
 
 export default function ProducerDetails(props) {
 	const [ producer, setProducer ] = useState(null);
+	const [ didMount, setDidMount ] = useState(false);
 
 	const addToCart = props.addToCart;
 
 	let match = useRouteMatch('/producers/:slug');
+	const producerID = match.params.slug;
 
 	useEffect(
 		() => {
-			const producerID = match.params.slug;
 			const fetchData = async () => {
 				const result = await axios(`http://localhost:3001/sellers/${producerID}`);
 				setProducer(result.data);
+				console.log('hey');
+				setDidMount(true);
 			};
 			fetchData();
 		},
-		[ producer ],
+		[ producerID ],
 	);
-
+	if (!didMount) {
+		return null;
+	}
 	return producer ? (
 		<Container style={{ width: 1500, padding: 10 }}>
 			<ProducerDisplayComponent producer={producer} />
-			<Container>
+			<Container style={{ paddingTop: 10 }}>
 				<ProductsCardList products={producer.products} addToCart={addToCart} />
 			</Container>
 		</Container>

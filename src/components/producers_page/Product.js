@@ -7,6 +7,20 @@ const Product = ({ description, name, picture, quality, price_kg, price_unit, st
 	const [ count, setCount ] = useState(1);
 
 	const price = price_kg ? `${price_kg}/kg` : `${price_unit}/unit`;
+	const inStock = () => {
+		if (stock <= 0) {
+			return (
+				<Button disabled color='teal' onClick={() => addItem(product, count)}>
+					<Icon name='add to cart' />Add to cart
+				</Button>
+			);
+		}
+		return (
+			<Button color='teal' onClick={() => addItem(product, count)}>
+				<Icon name='add to cart' />Add to cart
+			</Button>
+		);
+	};
 	return (
 		<Card color='olive'>
 			<Image src={picture} fluid style={{ height: 150, objectFit: 'cover' }} />
@@ -22,6 +36,7 @@ const Product = ({ description, name, picture, quality, price_kg, price_unit, st
 				{price}
 			</Card.Content>
 			<Form.Field
+				inline
 				label='Quantity'
 				control='input'
 				type='number'
@@ -29,11 +44,7 @@ const Product = ({ description, name, picture, quality, price_kg, price_unit, st
 				max={stock}
 				onChange={(e) => setCount(e.target.value)}
 			/>
-			<Card.Content extra>
-				<Button color='teal' onClick={() => addItem(product, count)}>
-					<Icon name='add to cart' />Add to cart
-				</Button>
-			</Card.Content>
+			<Card.Content extra>{inStock()}</Card.Content>
 		</Card>
 	);
 };

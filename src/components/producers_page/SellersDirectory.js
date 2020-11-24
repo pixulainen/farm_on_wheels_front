@@ -6,16 +6,13 @@ import { Segment } from 'semantic-ui-react';
 import { Route } from 'react-router-dom';
 const ProducersPageComponent = () => {
 	const [ producers, setProducers ] = useState([]);
-	useEffect(
-		() => {
-			const fetchData = async () => {
-				const producers = await API.fetchProducers();
-				setProducers(producers);
-			};
-			fetchData();
-		},
-		[ producers ],
-	);
+	useEffect(() => {
+		const fetchData = async () => {
+			const producers = await API.fetchProducers();
+			setProducers(producers);
+		};
+		fetchData();
+	}, []);
 	return (
 		<Segment basic>
 			<Route path='/producers' component={() => <ProducerList producers={producers} />} />

@@ -58,7 +58,6 @@ const _Search = (props) => {
 					noResultsMessage={error ? 'Ups, try again later.' : 'No results found.'}
 					results={results}
 					value={value}
-					{...props}
 				/>
 			</Grid.Column>
 		</Grid>

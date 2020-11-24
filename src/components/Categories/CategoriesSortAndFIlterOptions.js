@@ -3,8 +3,8 @@ import { Input, Menu, Dropdown } from 'semantic-ui-react';
 
 const options = [
 	{ key: 1, text: 'Default', value: 'default' },
-	{ key: 1, text: 'Name', value: 'name' },
-	{ key: 2, text: 'Price', value: 'price' },
+	{ key: 2, text: 'Name', value: 'name' },
+	{ key: 3, text: 'Price', value: 'price' },
 ];
 
 export default class CategoriesSortAndFIlterOptions extends Component {
