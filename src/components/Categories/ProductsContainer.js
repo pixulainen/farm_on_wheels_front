@@ -1,11 +1,19 @@
 import React from 'react';
 import { Card, Segment } from 'semantic-ui-react';
-import Product from './Product';
+import Product from '../producers_page/Product';
 
 const ProductsContainer = ({ products, handleClick }) => {
 	const renderProducts = () => {
 		return products.map((product) => {
-			return <Product product={product} key={product.id} {...product} handleClick={handleClick} />;
+			return (
+				<Product
+					product={product}
+					key={product.id}
+					{...product}
+					handleClick={handleClick}
+					buttonDisabled={true}
+				/>
+			);
 		});
 	};
 	return (

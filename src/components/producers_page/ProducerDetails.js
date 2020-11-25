@@ -19,7 +19,6 @@ export default function ProducerDetails(props) {
 			const fetchData = async () => {
 				const result = await axios(`http://localhost:3001/sellers/${producerID}`);
 				setProducer(result.data);
-				console.log('hey');
 				setDidMount(true);
 			};
 			fetchData();
@@ -33,7 +32,7 @@ export default function ProducerDetails(props) {
 		<Container style={{ width: 1500, padding: 10 }}>
 			<ProducerDisplayComponent producer={producer} />
 			<Container style={{ paddingTop: 10 }}>
-				<ProductsCardList products={producer.products} addToCart={addToCart} />
+				<ProductsCardList products={producer.products} />
 			</Container>
 		</Container>
 	) : null;

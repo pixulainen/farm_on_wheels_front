@@ -3,15 +3,27 @@ import { Card, Icon, Image, Button, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addItem } from '../../redux/cart/cart.actions';
 
-const Product = ({ description, name, picture, quality, price_kg, price_unit, stock, product, addItem }) => {
+const Product = ({
+	description,
+	name,
+	picture,
+	quality,
+	price_kg,
+	price_unit,
+	stock,
+	product,
+	addItem,
+	buttonDisabled,
+	handleClick,
+	seller_id,
+}) => {
 	const [ count, setCount ] = useState(1);
-
 	const price = price_kg ? `${price_kg}/kg` : `${price_unit}/unit`;
 	const inStock = () => {
 		if (stock <= 0) {
 			return (
 				<Button disabled color='teal' onClick={() => addItem(product, count)}>
-					<Icon name='add to cart' />Add to cart
+					<Icon name='add to cart' />Sold out
 				</Button>
 			);
 		}
@@ -22,7 +34,7 @@ const Product = ({ description, name, picture, quality, price_kg, price_unit, st
 		);
 	};
 	return (
-		<Card color='olive'>
+		<Card color='olive' onClick={() => buttonDisabled && handleClick(seller_id)}>
 			<Image src={picture} fluid style={{ height: 150, objectFit: 'cover' }} />
 			<Card.Content>
 				<Card.Header>{name}</Card.Header>
@@ -35,16 +47,20 @@ const Product = ({ description, name, picture, quality, price_kg, price_unit, st
 				<Icon name='pound' />
 				{price}
 			</Card.Content>
-			<Form.Field
-				inline
-				label='Quantity'
-				control='input'
-				type='number'
-				min={1}
-				max={stock}
-				onChange={(e) => setCount(e.target.value)}
-			/>
-			<Card.Content extra>{inStock()}</Card.Content>
+			{!buttonDisabled && (
+				<React.Fragment>
+					<Form.Field
+						inline
+						label='Quantity'
+						control='input'
+						type='number'
+						min={1}
+						max={stock}
+						onChange={(e) => setCount(e.target.value)}
+					/>
+					<Card.Content extra>{inStock()}</Card.Content>
+				</React.Fragment>
+			)}
 		</Card>
 	);
 };
