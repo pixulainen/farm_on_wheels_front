@@ -8,12 +8,8 @@ import { Container } from 'semantic-ui-react';
 export default function ProducerDetails(props) {
 	const [ producer, setProducer ] = useState(null);
 	const [ didMount, setDidMount ] = useState(false);
-
-	const addToCart = props.addToCart;
-
 	let match = useRouteMatch('/producers/:slug');
 	const producerID = match.params.slug;
-
 	useEffect(
 		() => {
 			const fetchData = async () => {

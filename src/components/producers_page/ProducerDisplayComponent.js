@@ -1,6 +1,5 @@
 import React from 'react';
-import { Image, Grid, Segment, Container, Button, Icon, Header } from 'semantic-ui-react';
-import API from '../../API';
+import { Image, Grid, Container, Header } from 'semantic-ui-react';
 export default function ProducerDisplayComponent(props) {
 	return (
 		<div>

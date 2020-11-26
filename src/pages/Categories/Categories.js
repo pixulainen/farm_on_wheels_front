@@ -70,7 +70,7 @@ const _CategoriesPage = ({ history }) => {
 			<ProductsContainer products={sortedProducts} handleClick={handleClick} />
 		</Container>
 	) : (
-		<h1>Loading</h1>
+		<h1>Loading...</h1>
 	);
 };
 export default withRouter(_CategoriesPage);
