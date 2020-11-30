@@ -4,20 +4,22 @@ import ProductCell from './ProductCell';
 import API from '../../API';
 import { connect } from 'react-redux';
 import { clearCart } from '../../redux/cart/cart.actions';
-
+import StripeCheckoutButton from '../stripe-button/stripe-button';
 const Cart = ({ cartItems, currentUser, clearCart }) => {
 	const renderItems = () => {
 		return cartItems.map((product) => <ProductCell product={product} {...product} key={product.id} />);
 	};
-	const total = () =>
-		cartItems.reduce(
-			(accumulator, item) => accumulator + item.quantity * (item.price_kg ? item.price_kg : item.price_unit),
-			0,
-		);
+	const total = cartItems.reduce(
+		(accumulator, item) => accumulator + item.quantity * (item.price_kg ? item.price_kg : item.price_unit),
+		0,
+	);
 
-	const SubmitOrder = () => {
-		API.PostOrder(cartItems, currentUser, total());
-		clearCart();
+	const submitOrder = () => {
+		if (!currentUser) {
+			alert('You need to create an account to save your orders!');
+		} else {
+			API.PostOrder(cartItems, total);
+		}
 	};
 	return (
 		<Container text>
@@ -35,18 +37,24 @@ const Cart = ({ cartItems, currentUser, clearCart }) => {
 					</Table.Header>
 					{renderItems()}
 				</Table>
-				<Header floated='right'> Total: £{total()} </Header>
+				<Header floated='right'> Total: £{total} </Header>
 				<Divider />
 				<br />
 				<br />
-				<Button floated='right' color='olive' circular onClick={() => SubmitOrder()}>
-					<Icon name='add to cart' />
-					Checkout
-				</Button>
-				<Button floated='left' color='red' circular onClick={() => clearCart()}>
-					<Icon name='cart' />
-					Empty Cart
-				</Button>
+				{cartItems.length >= 1 && (
+					<React.Fragment>
+						<StripeCheckoutButton price={total} submitOrder={submitOrder}>
+							<Button floated='right' color='olive' circular disabled={cartItems ? false : true}>
+								<Icon name='add to cart' />
+								Checkout
+							</Button>
+						</StripeCheckoutButton>
+						<Button floated='left' color='red' circular onClick={() => clearCart()}>
+							<Icon name='cart' />
+							Empty Cart
+						</Button>
+					</React.Fragment>
+				)}
 			</Segment>
 		</Container>
 	);

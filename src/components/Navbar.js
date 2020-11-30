@@ -67,15 +67,8 @@ const Navbar = ({ currentUser, signOutUser, cartItems }) => {
 				<Menu.Menu position='right'>
 					<Menu.Item
 						as={Link}
-						to='/sellersignup'
-						name='Register Seller Account'
-						active={activeItem === 'Register Seller Account'}
-						onClick={handleItemClick}
-					/>
-					<Menu.Item
-						as={Link}
 						to='/buyersignup'
-						name='Register Buyer Account'
+						name='Register Account'
 						active={activeItem === 'Register Buyer Account'}
 						onClick={handleItemClick}
 					/>

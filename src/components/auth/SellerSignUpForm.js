@@ -3,17 +3,17 @@ import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import API from '../../API';
 import { signIn } from '../../utils/auth';
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../../redux/user/user.actions';
 
-const BuyerSignUpForm = () => {
+const BuyerSignUpForm = ({ setCurrentUser }) => {
 	const [ value, setValue ] = useState({
-		user: {
-			username: '',
-			password: '',
-			email: '',
-			first_name: '',
-			last_name: '',
-			phone_number: '',
-		},
+		username: '',
+		password: '',
+		email: '',
+		first_name: '',
+		last_name: '',
+		phone_number: '',
 	});
 
 	const handleChange = (e) => {
@@ -25,15 +25,16 @@ const BuyerSignUpForm = () => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		API.signUp(value).then((json) => {
+		API.signUpSeller(value).then((json) => {
 			signIn(json.token);
+			setCurrentUser(json.username);
 		});
 	};
 	return (
 		<div>
 			<Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
 				<Grid.Column style={{ maxWidth: 550 }}>
-					<Header as='h2' color='teal' textAlign='center'>
+					<Header as='h2' color='red' textAlign='center'>
 						Register as a seller
 					</Header>
 					<Form onSubmit={handleSubmit}>
@@ -104,7 +105,10 @@ const BuyerSignUpForm = () => {
 		</div>
 	);
 };
-export default BuyerSignUpForm;
+const mapDispatchToProps = (dispatch) => ({
+	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+export default connect(null, mapDispatchToProps)(BuyerSignUpForm);
 // <Seller id: nil, username: nil, first_name: nil, last_name: nil, email: nil,
 //     password_digest: nil, phone_number: nil, store_name: nil, store_description: nil,
 //     store_photos: nil, store_location: nil, created_at: nil, updated_at: nil></Seller>

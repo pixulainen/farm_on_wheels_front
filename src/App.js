@@ -12,6 +12,7 @@ import ProducerDetails from './components/producers_page/ProducerDetails';
 import CategoriesPage from './pages/Categories/Categories';
 import Homepage from './pages/Homepage/Homepage';
 import SellerSignUpForm from './components/auth/SellerSignUpForm';
+import SellerLoginForm from './components/auth/SellerLoginForm';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { signIn } from './utils/auth';
@@ -34,6 +35,11 @@ class App extends Component {
 					exact
 					path='/login'
 					render={(props) => (this.props.currentUser ? <Redirect to='/' /> : <BuyerLoginForm />)}
+				/>
+				<Route
+					exact
+					path='/seller_login'
+					render={(props) => (this.props.currentUser ? <Redirect to='/' /> : <SellerLoginForm />)}
 				/>
 				<Route exact path='/sellersignup' render={() => <SellerSignUpForm />} />
 
