@@ -14,11 +14,11 @@ const Cart = ({ cartItems, currentUser, clearCart }) => {
 		0,
 	);
 
-	const submitOrder = () => {
+	const submitOrder = (token) => {
 		if (!currentUser) {
 			alert('You need to create an account to save your orders!');
 		} else {
-			API.PostOrder(cartItems, total);
+			API.PostOrder(cartItems, total, token);
 		}
 	};
 	return (

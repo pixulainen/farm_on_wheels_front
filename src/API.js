@@ -42,13 +42,13 @@ const fetchProducers = () => {
 const fetchProducts = () => {
 	return fetch(`${BASE_URL}/products`).then(jsonify);
 };
-const PostOrder = (products, total) => {
+const PostOrder = (products, total, token) => {
 	const configurationObject = {
 		seller: products[0].seller_id,
 		total: total,
 		products: products,
+		token,
 	};
-	debugger;
 	fetch(`${BASE_URL}/orders`, {
 		method: 'POST',
 		headers: {

@@ -11,8 +11,8 @@ const StripeCheckoutButton = ({ children, price, clearCart, submitOrder }) => {
 	const onToken = (token) => {
 		console.log(token);
 		alert('Payment Succesful');
+		submitOrder(token);
 		clearCart();
-		submitOrder();
 	};
 	return (
 		<StripeCheckout
