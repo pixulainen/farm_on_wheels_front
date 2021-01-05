@@ -7,7 +7,7 @@ import API from './API';
 import './App.css';
 import BuyerProfilePage from './components/Buyer/BuyerProfilePage';
 import BuyerSignupForm from './components/auth/BuyerSignUpForm';
-import SellersDirectory from './components/producers_page/SellersDirectory';
+import SellersDirectory from './pages/Sellers/Sellers';
 import ProducerDetails from './components/producers_page/ProducerDetails';
 import CategoriesPage from './pages/Categories/Categories';
 import Homepage from './pages/Homepage/Homepage';

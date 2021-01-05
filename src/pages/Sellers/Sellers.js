@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../API';
-import ProducerList from './ProducersList';
-import ProducerStore from './ProducerDetails';
+import ProducerList from '../../components/producers_page/ProducersList';
+import ProducerStore from '../../components/producers_page/ProducerDetails';
 import { Segment } from 'semantic-ui-react';
 import { Route } from 'react-router-dom';
-const ProducersPageComponent = () => {
+const SellersPage = () => {
 	const [ producers, setProducers ] = useState([]);
 	useEffect(() => {
 		const fetchData = async () => {
@@ -14,10 +14,10 @@ const ProducersPageComponent = () => {
 		fetchData();
 	}, []);
 	return (
-		<Segment basic>
+		<React.Fragment>
 			<Route path='/producers' component={() => <ProducerList producers={producers} />} />
 			<Route path='/producers/:producerId' component={ProducerStore} />
-		</Segment>
+		</React.Fragment>
 	);
 };
-export default ProducersPageComponent;
+export default SellersPage;

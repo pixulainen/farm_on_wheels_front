@@ -36,7 +36,7 @@ const Navbar = ({ currentUser, signOutUser, cartItems }) => {
 		);
 	return (
 		<div>
-			<Menu stackable borderless size='small' color='olive'>
+			<Menu fixed='top' stackable borderless size='small' color='black'>
 				<Menu.Item>
 					<img src='../assets/farmlogo.png' alt='logo' />
 				</Menu.Item>

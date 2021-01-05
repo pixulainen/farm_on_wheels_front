@@ -39,8 +39,8 @@ const fetchProducers = () => {
 	return fetch(`${BASE_URL}/sellers`).then(jsonify);
 };
 
-const fetchProducts = () => {
-	return fetch(`${BASE_URL}/products`).then(jsonify);
+const fetchProducts = (category_id, name) => {
+	return fetch(`${BASE_URL}/products?category=${category_id}&starts_with=${name}`).then(jsonify);
 };
 const PostOrder = (products, total, token) => {
 	const configurationObject = {

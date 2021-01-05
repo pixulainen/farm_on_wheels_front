@@ -7,8 +7,8 @@ const ProducersList = ({ producers }) => {
 		return <ProducerCard producer={producer} key={producer.id} />;
 	});
 	return (
-		<Container>
-			<Card.Group itemsPerRow='4'>{renderProducers}</Card.Group>
+		<Container style={{ marginTop: 75, padding: 10 }}>
+			<Card.Group itemsPerRow='3'>{renderProducers}</Card.Group>
 		</Container>
 	);
 };

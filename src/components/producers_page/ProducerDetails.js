@@ -25,7 +25,7 @@ export default function ProducerDetails(props) {
 		return null;
 	}
 	return producer ? (
-		<Container style={{ width: 1500, padding: 10 }}>
+		<Container style={{ width: 1500, padding: 10, marginTop: 75 }}>
 			<ProducerDisplayComponent producer={producer} />
 			<Container style={{ paddingTop: 10 }}>
 				<ProductsCardList products={producer.products} />

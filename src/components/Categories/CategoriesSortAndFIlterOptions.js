@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Menu, Dropdown } from 'semantic-ui-react';
+import _ from 'lodash';
 
 const options = [
 	{ key: 1, text: 'Default', value: 'default' },
@@ -15,7 +16,7 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 			{
 				key: 1,
 				text: 'All',
-				value: 'All',
+				value: ' ',
 			},
 			{
 				key: 2,
@@ -48,31 +49,18 @@ export default class CategoriesSortAndFIlterOptions extends Component {
 
 						<Dropdown
 							item
+							fluid
 							wrapSelection
 							placeholder='Select category'
 							scrolling
 							selection
 							options={getOptions}
-							onChange={handleFilterChange}
+							onChange={_.debounce(handleFilterChange, 500, {
+								leading: true,
+							})}
 						/>
 					</Menu.Item>
 				</Menu.Menu>
-				<Menu.Menu>
-					<Menu.Item>
-						<Menu.Item name='Sort' />
-						<Dropdown
-							item
-							wrapSelection
-							placeholder='Sort By'
-							scrolling
-							selection
-							clearable
-							options={options}
-							onChange={handleSortChange}
-						/>
-					</Menu.Item>
-				</Menu.Menu>
-
 				<Menu.Menu position='right'>
 					<Menu.Item>
 						<Input icon='search' placeholder='Search...' onChange={handleSearchChange} />

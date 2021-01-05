@@ -1,28 +1,25 @@
 import React from 'react';
-import { Card, Icon, Image } from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const ProducerCard = ({ producer }) => {
-	const { store_name, store_photos, store_location, store_description, email, phone_number, id } = producer;
+	const { store_name, store_photos, store_description, id } = producer;
+	const shorten = (text, maxLength) => {
+		if (text && text.length > maxLength) {
+			return text.substr(0, maxLength) + '...';
+		}
+		return text;
+	};
 	return (
-		<Card centered raised color='olive' style={{ height: 450 }}>
+		<Card centered raised color='olive' style={{ height: 425, width: 350 }}>
 			<Image src={store_photos} style={{ height: 200, objectFit: 'cover' }} />
-			<Card.Content>
-				<Card.Header as={Link} to={`/producers/${id}`}>
+			<Card.Content textAlign='center'>
+				<Card.Header as={Link} to={`/producers/${id}`} style={{ fontSize: '20px' }}>
 					{store_name}
 				</Card.Header>
-				<Card.Meta>
-					<span className='date'>Location: {store_location}</span>
-				</Card.Meta>
-				<Card.Description>{store_description}</Card.Description>
-			</Card.Content>
-			<Card.Content extra>
-				<Icon name='mail' />
-				{email}
-			</Card.Content>
-			<Card.Content extra>
-				<Icon name='phone' />
-				{phone_number}
+				<Card.Description style={{ fontSize: 'medium', marginTop: 25 }}>
+					{shorten(store_description, 320)}
+				</Card.Description>
 			</Card.Content>
 		</Card>
 	);
